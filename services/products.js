@@ -2,30 +2,47 @@ const MongoLib = require('../lib/mongo');
 
 class productsService {
   constructor() {
-    this.colecction = 'products',
+    this.collection = 'products',
     this.mongoDB = new MongoLib()
   }
 
   async getProducts({ tags }){
     const query = tags && { tags: {$in: tags} }
-    const products = await this.mongoDB.getAll(this.colecction, query)
-    return products || ["vacio"]
+    const products = await this.mongoDB.getAll(this.collection, query)
+    return products || []
   }
 
-  getProduct({ productID }){
-    return Promise.resolve(productsMocks[0])
+  async getProduct({ productId }){
+    const product = await this.mongoDB.get(this.collection, productId)
+    return product  || {}
   }
 
-  createProduct({ productID }){
-    return Promise.resolve(productsMocks[0])
+  async createProduct({ product }){
+    const createProductId = await this.mongoDB.create(this.collection, product)
+    return createProductId
   }
 
-  updateProduct({ productID, product }){
-    return Promise.resolve(productsMocks[0])
+  async updateProduct({
+      productId,
+      product
+    }) {
+    const updateProductId = await this.mongoDB.update(
+      this.collection,
+      productId,
+      product
+    )
+
+    return updateProductId
   }
 
-  deleteProduct({ productID }){
-    return Promise.resolve(productsMocks[0])
+  async deleteProduct({
+      productId
+    }) {
+    const deletedProductId = await this.mongoDB.delete(
+      this.collection,
+      productId
+    )
+    return deletedProductId
   }
 
 }

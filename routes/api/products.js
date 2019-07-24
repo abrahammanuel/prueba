@@ -5,6 +5,8 @@ const ProductsService = require('../../services/products')
 
 const productService = new ProductsService()
 
+let productId = "productId"
+
 router.get('/', async (req, res, next) => {
   const { tags } = req.query
   console.log("req", req.query);
@@ -21,7 +23,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:productId', async (req, res, next) => {
+router.get(`/:${productId}`, async (req, res, next) => {
   const { productId } = req.params
   console.log("req", req.params);
 
@@ -53,7 +55,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:productId', async (req, res, next) => {
+router.put(`/:${productId}`, async (req, res, next) => {
   const { productId } = req.params
   const { body: product } = req
   console.log("req", req.params, req.body);
@@ -72,12 +74,12 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
-router.delete('/:productID', async (req, res,next) => {
-  const { productID } = req.params
+router.delete('/:productId', async (req, res,next) => {
+  const { productId } = req.params// productId debe ser igual al "/:productId"
   
   try {
-    const deletedProduct =  await productService.deleteProduct({ productID  })
-  
+    const deletedProduct =  await productService.deleteProduct({ productId  })
+    
     res.status(201).json({
       data: deletedProduct,
       message: 'products deleted'

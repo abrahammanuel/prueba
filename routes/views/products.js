@@ -8,6 +8,8 @@ router.get('/', async  function(req, res, next){
   const { tags } = req.query
   try {
     const products = await productService.getProducts({ tags })
+    // console.log({products}, tags);
+    
     res.render('products', { products })
   } catch (err) {
     next(err)
